@@ -1,126 +1,79 @@
-const url = 'http://127.0.0.1:3000/tasks'
-
-const inputEl = document.getElementsByClassName('app__controls-input') [0]
-const btnEl = document.getElementsByClassName('app__controls-button')[0]
-const listEl = document.getElementsByClassName('app__list')[0]
-const textEL = document.getElementsByClassName('app__list-item-text')[0]
-const btnDel = document.getElementsByClassName('app__list-btn')[0]
-const task = document.getElementsByClassName('app__list-item')[0]
-let counter = 1
-const data = [
-    { id: 1, text: 'lol', isDone: true},
-    { id: 2, text: 'lol', isDone: false}
-]
-
-data.forEach((item) => {
-    if(item.id > counter) {
-        counter = item.id
-    };
-})
-if(counter > 1) {
-    counter++
-}
-
-// //API
-
-// async function getItems() {
-//     const res = await fetch(url, {
-//         method: 'GET'
-//     })
-//     if(!res.ok) {
-//         console.log('Wrong');
-//         return
-//     }
-//     data = await res.json()
-// }
-
-
-// async function CreateTaskApi(data) {
-//     const res = await fetch(url, {
-//         method: 'POST',
-//         body: JSON.stringify({
-//             text: data.text,
-//             isDone: data.isDone
-//         })
-//     })  
-// }
-
-//APP
-//data.forEach((item) => {
-//    if(item.id > counter) {
-//        counter = item.id
-//    }
-//if (counter > 1) {
-//    counter++
-//}
-//    render()
-//})
+const inputEl = document.getElementsByClassName('app__controls-input')[0];
+const btnEl = document.getElementsByClassName('app__controls-button')[0];
+const listEl = document.getElementsByClassName('app__list')[0];
+let counter = 1;
+const data = [];
 
 function createTask(objectData) {
     const root = document.createElement('div');
     root.classList.add('app__list-item');
 
-    if (data.isDone === true) {
-        root.classList.add('app__list-item_done')
-    };
+    if (objectData.isDone) {
+        root.classList.add('app__list-item_done');
+    }
 
     const input = document.createElement('input');
     input.classList.add('app__list-checkbox');
 
-    if (data.isDone === true) {
-        input.checked = true
-    };
+    if (objectData.isDone) {
+        input.checked = true;
+    }
 
-    input.type = 'checkbox'
+    input.type = 'checkbox';
 
-    const txt = document.createElement('p')
-    txt.classList.add('app__list-item-text')
-    txt.innerText = data.text
+    const txt = document.createElement('p');
+    txt.classList.add('app__list-item-text');
+    txt.innerText = objectData.text;
 
-    const btn = document.createElement('button')
-    btn.classList.add('app__list-btn')
+    const btn = document.createElement('button');
+    btn.classList.add('app__list-btn');
 
-    const img = document.createElement('img')
-    img.src = './vector.svg'
-    img.alt = 'trash'
+    const img = document.createElement('img');
+    img.src = './vector.svg';
+    img.alt = 'trash';
 
-    btn.appendChild(img)
+    btn.appendChild(img);
 
-    root.appendChild(input)
-    root.appendChild(txt)
-    root.appendChild(btn)
-    return root
-}  
+    btn.addEventListener('click', () => {
+        root.remove();
+        data.splice(0)
+    });
 
-
-btnDel.addEventListener('click', () => {
-    task.delete()
-})
+    root.appendChild(input);
+    root.appendChild(txt);
+    root.appendChild(btn);
+    return root;
+}
 
 btnEl.addEventListener('click', () => {
-    const textValue = inputEl.value;
-    data.push({
-        id: 3,
-        text: textValue,
-        isDone: false
-    })
-    render()
-    inputEl.value = ''
-})
+    const textValue = inputEl.value.trim();
+    if (textValue !== '') {
+        data.push({
+            id: counter++,
+            text: textValue,
+            isDone: false
+        });
+        render();
+        inputEl.value = '';
+    }
+});
 
 function render() {
-    listEl.innerHTML = ''
-    for(let item of data) {
+    listEl.innerHTML = '';
+    for (let item of data) {
         const tmpElement = createTask(item);
-        listEl.appendChild(tmpElement)
+        listEl.appendChild(tmpElement);
     }
 }
 
-// function render() {
-//     listEl.innerHTML = ''
-//     for (let item of data) {
-//         const tmpElement = createTask(item)
-//         listEl.appendChild(tmpElement)
-//     }
-// }
+const correct = document.querySelector('#yes')
+console.log(yes.checked)
+
+if (yes.checked === false) {
+    console.log('111')
+}
+
+if (yes.checked === true) {
+    createTask()
+}
 
